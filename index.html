@@ -45,7 +45,8 @@ h1{ font-size:25px; font-weight:800; letter-spacing:-.6px; color:var(--navy); }
   font-family:inherit; font-size:11.5px; font-weight:700; color:var(--faint); transition:.15s; }
 .kmg:hover{ color:var(--blue); }
 .layout{ display:grid; grid-template-columns:1fr 350px; gap:18px; align-items:start; }
-.cal{ background:var(--card); border:1px solid var(--line); border-radius:16px; padding:18px; box-shadow:var(--shadow); }
+.cal{ background:var(--card); border:1px solid var(--line); border-radius:16px; padding:18px;
+  box-shadow:var(--shadow); min-width:0; }
 .ctop{ display:flex; align-items:center; justify-content:space-between; margin-bottom:12px; gap:10px; flex-wrap:wrap; }
 .ctitle{ font-size:19px; font-weight:800; color:var(--navy); letter-spacing:-.4px; }
 .nav{ display:flex; gap:5px; align-items:center; }
@@ -62,13 +63,14 @@ h1{ font-size:25px; font-weight:800; letter-spacing:-.6px; color:var(--navy); }
 .mhint{ font-size:11.5px; font-weight:700; color:#4A90B8; background:rgba(143,199,232,.16);
   padding:7px 11px; border-radius:8px; margin-bottom:10px; display:none; }
 .mhint.on{ display:block; }
-.dow{ display:grid; grid-template-columns:repeat(7,1fr); margin-bottom:5px; }
+.dow{ display:grid; grid-template-columns:repeat(7,minmax(0,1fr)); margin-bottom:5px; }
 .dow div{ text-align:center; font-size:11.5px; font-weight:700; color:var(--sub); padding:5px 0; }
 .dow div:first-child{ color:var(--sun); }
 .dow div:last-child{ color:var(--sat); }
-.grid{ display:grid; grid-template-columns:repeat(7,1fr); gap:4px; }
+.grid{ display:grid; grid-template-columns:repeat(7,minmax(0,1fr)); gap:4px; }
 .cell{ min-height:88px; border:1px solid transparent; border-radius:9px; padding:5px 4px;
-  cursor:pointer; transition:.13s; background:#FCFDFE; display:flex; flex-direction:column; gap:3px; user-select:none; }
+  cursor:pointer; transition:.13s; background:#FCFDFE; display:flex; flex-direction:column;
+  gap:3px; user-select:none; min-width:0; overflow:hidden; }
 .cell:hover{ background:#F4F9FC; border-color:#D8E7F1; }
 .cell.out{ background:transparent; } .cell.out .dn{ color:#DDE3E9; }
 .cell.sel{ background:#EDF6FB; border-color:var(--blue); box-shadow:0 0 0 2px rgba(143,199,232,.2); }
@@ -78,15 +80,16 @@ h1{ font-size:25px; font-weight:800; letter-spacing:-.6px; color:var(--navy); }
   align-items:center; justify-content:center; border-radius:6px; flex-shrink:0; }
 .cell.sun .dn{ color:var(--sun); } .cell.sat .dn{ color:var(--sat); }
 .cell.today.sun .dn,.cell.today.sat .dn{ color:#fff; }
-.chips{ display:flex; flex-direction:column; gap:2px; overflow:hidden; }
+.chips{ display:flex; flex-direction:column; gap:2px; overflow:hidden; min-width:0; }
 .chip{ font-size:10px; font-weight:800; padding:2px 5px; border-radius:4px;
-  white-space:nowrap; overflow:hidden; text-overflow:ellipsis; line-height:1.5;
-  display:flex; align-items:center; gap:3px; }
+  white-space:nowrap; overflow:hidden; line-height:1.5;
+  display:flex; align-items:center; gap:3px; min-width:0; max-width:100%; }
+.chip span{ overflow:hidden; text-overflow:ellipsis; white-space:nowrap; min-width:0; flex:1; }
 .chip.done{ opacity:.55; text-decoration:line-through; text-decoration-thickness:1.5px; }
 .rp{ flex-shrink:0; opacity:.75; }
 .more{ font-size:9.5px; font-weight:700; color:var(--faint); padding-left:4px; }
 .side{ background:var(--card); border:1px solid var(--line); border-radius:16px;
-  box-shadow:var(--shadow); overflow:hidden; position:sticky; top:18px; }
+  box-shadow:var(--shadow); overflow:hidden; position:sticky; top:18px; min-width:0; }
 .stabs{ display:flex; border-bottom:1px solid var(--line); }
 .stab{ flex:1; padding:12px 0; border:none; background:#FAFBFC; cursor:pointer;
   font-family:inherit; font-size:13px; font-weight:700; color:var(--sub);
@@ -156,7 +159,7 @@ textarea{ resize:vertical; min-height:50px; line-height:1.5; }
 .btn-s{ background:#F1F4F7; color:var(--sub); } .btn-s:hover{ background:#E8EDF2; }
 .item{ border:1px solid var(--line); border-left:3px solid var(--blue); border-radius:10px;
   padding:10px 12px; margin-bottom:7px; display:flex; gap:9px; align-items:flex-start;
-  background:#fff; transition:.15s; }
+  background:#fff; transition:.15s; min-width:0; }
 .item:hover{ border-color:#D5DEE6; }
 .item.done{ opacity:.82; background:#FBFCFD; }
 .item.done .it{ text-decoration:line-through; text-decoration-color:#A8B4BF;
@@ -207,7 +210,7 @@ textarea{ resize:vertical; min-height:50px; line-height:1.5; }
 .mtx{ font-size:13px; color:var(--sub); line-height:1.6; margin-bottom:14px; }
 .krow{ display:flex; align-items:center; gap:8px; padding:8px; border:1px solid var(--line);
   border-radius:9px; margin-bottom:7px; }
-.krow input[type=text]{ flex:1; padding:7px 9px; font-size:13px; }
+.krow input[type=text]{ flex:1; padding:7px 9px; font-size:13px; min-width:0; }
 .krow input[type=color]{ width:32px; height:32px; padding:2px; border-radius:7px;
   cursor:pointer; border:1.5px solid var(--line); flex-shrink:0; }
 .toast{ position:fixed; bottom:24px; left:50%; transform:translateX(-50%) translateY(80px);
@@ -219,7 +222,7 @@ textarea{ resize:vertical; min-height:50px; line-height:1.5; }
   .layout{ grid-template-columns:1fr; }
   .side{ position:static; }
   .cell{ min-height:78px; }
-  .chip{ font-size:9px; padding:2px 4px; border-radius:3px; gap:2px; }
+  .chip{ font-size:9px; padding:2px 4px; border-radius:3px; gap:2px; font-weight:800; }
   .chip .rp{ display:none; }
   .sbody{ max-height:none; }
 }
@@ -229,7 +232,6 @@ textarea{ resize:vertical; min-height:50px; line-height:1.5; }
   .grid{ gap:2px; }
   .cell{ min-height:70px; padding:4px 3px; }
   .chip{ font-size:8.5px; padding:1.5px 3px; }
-  .more{ font-size:8.5px; }
 }
 </style>
 </head>
@@ -296,7 +298,7 @@ const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,6);
 const kid=id=>kids.find(k=>k.id===id)||{name:'?',color:'#B8C0C8'};
 function shade(hex){
   const n=parseInt(hex.slice(1),16);
-  const r=Math.round(((n>>16)&255)*.5), g=Math.round(((n>>8)&255)*.5), b=Math.round((n&255)*.5);
+  const r=Math.round(((n>>16)&255)*.55), g=Math.round(((n>>8)&255)*.55), b=Math.round((n&255)*.55);
   return `#${((1<<24)|(r<<16)|(g<<8)|b).toString(16).slice(1)}`;
 }
 function toast(m){const t=$('toast');t.textContent=m;t.classList.add('on');
@@ -389,18 +391,16 @@ function renderCal(){
   $('ctitle').textContent=`${y}년 ${m+1}월`;
   const first=new Date(y,m,1),st=new Date(first); st.setDate(1-first.getDay());
   const today=ymd(new Date());
-  const small=window.innerWidth<=900;
-  const maxChip=small?2:3;
   let h='';
   for(let i=0;i<42;i++){
     const d=new Date(st); d.setDate(st.getDate()+i);
     const k=ymd(d),out=d.getMonth()!==m,dw=d.getDay(),evs=byDate(k);
     const cls=['cell',out?'out':'',k===today?'today':'',(!multi&&k===sel)?'sel':'',
       (multi&&msel.includes(k))?'msel':'',dw===0?'sun':'',dw===6?'sat':''].filter(Boolean).join(' ');
-    const chips=evs.slice(0,maxChip).map(e=>{const c=kid(e.kidId).color;
-      return `<div class="chip ${e.done?'done':''}" style="background:${c}38;color:${shade(c)}">
-        ${e.rid?ICO_R:''}<span style="overflow:hidden;text-overflow:ellipsis">${esc(e.title)}</span></div>`}).join('');
-    const more=evs.length>maxChip?`<div class="more">+${evs.length-maxChip}</div>`:'';
+    const chips=evs.slice(0,3).map(e=>{const c=kid(e.kidId).color;
+      return `<div class="chip ${e.done?'done':''}" style="background:${c}38;color:${shade(c)}" title="${esc(e.title)}">
+        ${e.rid?ICO_R:''}<span>${esc(e.title)}</span></div>`}).join('');
+    const more=evs.length>3?`<div class="more">+${evs.length-3}</div>`:'';
     h+=`<div class="${cls}" data-k="${k}"><div class="dn">${d.getDate()}</div><div class="chips">${chips}${more}</div></div>`;
   }
   $('grid').innerHTML=h;
@@ -725,7 +725,6 @@ document.addEventListener('keydown',e=>{
   if(e.key==='Escape'){ if($('ov').classList.contains('on')){ $('ov').classList.remove('on'); pendDel=null }
     else if(formOpen){ formOpen=false; editId=null; renderSide() } }
 });
-let rz; window.addEventListener('resize',()=>{ clearTimeout(rz); rz=setTimeout(renderCal,200) });
 load(); sel=ymd(new Date()); render();
 setInterval(()=>{ if(!formOpen) renderSide() },60000);
 </script>
