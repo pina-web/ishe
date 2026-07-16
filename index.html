@@ -4,193 +4,252 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="아이스케줄">
 <meta name="theme-color" content="#FAFBFC">
 <title>아이스케줄</title>
-<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
+<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
 <style>
-  * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
-  :root {
-    --bg:#FAFBFC; --card:#FFF; --line:#E6EBF0;
-    --blue:#8FC7E8; --green:#A8D5A2;
-    --navy:#2C3E50; --text:#33383D; --sub:#8A939C; --faint:#B8C0C8;
-    --danger:#E88F8F; --sun:#E8929B; --sat:#7FA8D4;
-    --shadow:0 1px 3px rgba(44,62,80,.05), 0 4px 16px rgba(44,62,80,.04);
-  }
-  body { font-family:'Pretendard Variable',Pretendard,-apple-system,system-ui,sans-serif;
-    background:var(--bg); color:var(--text); -webkit-font-smoothing:antialiased; }
-  .wrap { max-width:1180px; margin:0 auto; padding:0 20px 60px; }
+* { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+:root{
+  --bg:#FAFBFC; --card:#FFF; --line:#E6EBF0;
+  --blue:#8FC7E8; --green:#A8D5A2;
+  --navy:#2C3E50; --text:#33383D; --sub:#8A939C; --faint:#B8C0C8;
+  --danger:#E88F8F; --sun:#E8929B; --sat:#7FA8D4;
+  --shadow:0 1px 3px rgba(44,62,80,.05),0 4px 16px rgba(44,62,80,.04);
+}
+body{ font-family:'Pretendard Variable',Pretendard,-apple-system,system-ui,sans-serif;
+  background:var(--bg); color:var(--text); -webkit-font-smoothing:antialiased; }
+.wrap{ max-width:1200px; margin:0 auto; padding:0 20px 60px; }
 
-  header { padding:30px 0 18px; }
-  h1 { font-size:25px; font-weight:800; letter-spacing:-.6px; color:var(--navy); }
-  .sub { font-size:13px; color:var(--sub); margin-top:4px; font-weight:500; }
-  .accent-bar { height:4px; border-radius:2px; background:linear-gradient(90deg,var(--blue),var(--green)); margin-top:14px; }
+header{ padding:28px 0 14px; }
+h1{ font-size:25px; font-weight:800; letter-spacing:-.6px; color:var(--navy); }
+.sub{ font-size:13px; color:var(--sub); margin-top:4px; font-weight:500; }
+.abar{ height:4px; border-radius:2px; background:linear-gradient(90deg,var(--blue),var(--green)); margin-top:13px; }
 
-  .layout { display:grid; grid-template-columns:1fr 340px; gap:18px; align-items:start; }
+/* Kids bar */
+.kbar{ display:flex; align-items:center; gap:7px; flex-wrap:wrap; margin:15px 0 14px;
+  padding:10px 12px; background:var(--card); border:1px solid var(--line);
+  border-radius:12px; box-shadow:var(--shadow); }
+.klb{ font-size:11.5px; font-weight:800; color:var(--sub); margin-right:3px; }
+.kp{ display:inline-flex; align-items:center; gap:6px; padding:6px 11px; border:1.5px solid var(--line);
+  background:#fff; border-radius:999px; cursor:pointer; font-family:inherit; font-size:12.5px;
+  font-weight:700; color:var(--sub); transition:.15s; }
+.kp:hover{ border-color:#D3DBE3; }
+.kp.on{ border-color:transparent; color:#fff; }
+.kdot{ width:9px; height:9px; border-radius:50%; flex-shrink:0; }
+.kp.on .kdot{ background:#fff !important; }
+.kadd{ padding:6px 11px; border:1.5px dashed #D3DBE3; background:#fff; border-radius:999px;
+  cursor:pointer; font-family:inherit; font-size:12.5px; font-weight:700; color:var(--sub); transition:.15s; }
+.kadd:hover{ border-color:var(--blue); color:var(--blue); }
+.kmg{ margin-left:auto; padding:6px 10px; border:none; background:transparent; cursor:pointer;
+  font-family:inherit; font-size:11.5px; font-weight:700; color:var(--faint); transition:.15s; }
+.kmg:hover{ color:var(--blue); }
 
-  /* ── Calendar ── */
-  .cal { background:var(--card); border:1px solid var(--line); border-radius:16px;
-    padding:18px; box-shadow:var(--shadow); }
-  .cal-top { display:flex; align-items:center; justify-content:space-between; margin-bottom:16px; }
-  .cal-title { font-size:19px; font-weight:800; color:var(--navy); letter-spacing:-.4px; }
-  .cal-title span { font-size:14px; color:var(--sub); font-weight:600; margin-left:5px; }
-  .nav { display:flex; gap:5px; align-items:center; }
-  .nb { width:32px; height:32px; border:1px solid var(--line); background:#fff; border-radius:8px;
-    cursor:pointer; color:var(--sub); display:flex; align-items:center; justify-content:center; transition:.15s; }
-  .nb:hover { border-color:var(--blue); color:var(--blue); background:#FBFDFE; }
-  .nb svg { width:14px; height:14px; }
-  .today-b { padding:0 12px; height:32px; border:1px solid var(--line); background:#fff;
-    border-radius:8px; cursor:pointer; font-family:inherit; font-size:12.5px;
-    font-weight:700; color:var(--sub); transition:.15s; }
-  .today-b:hover { border-color:var(--blue); color:var(--blue); }
+.layout{ display:grid; grid-template-columns:1fr 350px; gap:18px; align-items:start; }
 
-  .dow { display:grid; grid-template-columns:repeat(7,1fr); margin-bottom:6px; }
-  .dow div { text-align:center; font-size:11.5px; font-weight:700; color:var(--sub); padding:6px 0; }
-  .dow div:first-child { color:var(--sun); }
-  .dow div:last-child { color:var(--sat); }
+/* Calendar */
+.cal{ background:var(--card); border:1px solid var(--line); border-radius:16px; padding:18px; box-shadow:var(--shadow); }
+.ctop{ display:flex; align-items:center; justify-content:space-between; margin-bottom:12px; gap:10px; flex-wrap:wrap; }
+.ctitle{ font-size:19px; font-weight:800; color:var(--navy); letter-spacing:-.4px; }
+.nav{ display:flex; gap:5px; align-items:center; }
+.nb{ width:32px; height:32px; border:1px solid var(--line); background:#fff; border-radius:8px;
+  cursor:pointer; color:var(--sub); display:flex; align-items:center; justify-content:center; transition:.15s; }
+.nb:hover{ border-color:var(--blue); color:var(--blue); }
+.nb svg{ width:14px; height:14px; }
+.tb{ padding:0 12px; height:32px; border:1px solid var(--line); background:#fff; border-radius:8px;
+  cursor:pointer; font-family:inherit; font-size:12.5px; font-weight:700; color:var(--sub); transition:.15s; }
+.tb:hover{ border-color:var(--blue); color:var(--blue); }
+.mb{ padding:0 12px; height:32px; border:1.5px solid var(--line); background:#fff; border-radius:8px;
+  cursor:pointer; font-family:inherit; font-size:12.5px; font-weight:700; color:var(--sub); transition:.15s; }
+.mb.on{ background:var(--navy); border-color:var(--navy); color:#fff; }
 
-  .grid { display:grid; grid-template-columns:repeat(7,1fr); gap:4px; }
-  .cell { min-height:88px; border:1px solid transparent; border-radius:9px; padding:6px 5px;
-    cursor:pointer; transition:.13s; background:#FCFDFE; display:flex; flex-direction:column; gap:3px; }
-  .cell:hover { background:#F4F9FC; border-color:#D8E7F1; }
-  .cell.out { background:transparent; }
-  .cell.out .dn { color:#DDE3E9; }
-  .cell.out:hover { background:#FAFBFC; }
-  .cell.sel { background:#EDF6FB; border-color:var(--blue); box-shadow:0 0 0 2px rgba(143,199,232,.2); }
-  .cell.today .dn { background:var(--navy); color:#fff; }
-  .dn { font-size:12.5px; font-weight:700; color:var(--text); width:21px; height:21px;
-    display:flex; align-items:center; justify-content:center; border-radius:6px; flex-shrink:0; }
-  .cell.sun .dn { color:var(--sun); }
-  .cell.sat .dn { color:var(--sat); }
-  .cell.today.sun .dn, .cell.today.sat .dn { color:#fff; }
-  .chips { display:flex; flex-direction:column; gap:2px; overflow:hidden; }
-  .chip { font-size:10.5px; font-weight:600; padding:2px 5px; border-radius:4px;
-    background:rgba(143,199,232,.22); color:#3D7A9E; white-space:nowrap;
-    overflow:hidden; text-overflow:ellipsis; line-height:1.45; }
-  .chip.done { background:#F0F3F6; color:var(--faint); text-decoration:line-through; }
-  .more { font-size:9.5px; font-weight:700; color:var(--faint); padding-left:5px; }
+.mhint{ font-size:11.5px; font-weight:700; color:#4A90B8; background:rgba(143,199,232,.16);
+  padding:7px 11px; border-radius:8px; margin-bottom:10px; display:none; }
+.mhint.on{ display:block; }
 
-  /* ── Side panel ── */
-  .side { background:var(--card); border:1px solid var(--line); border-radius:16px;
-    box-shadow:var(--shadow); overflow:hidden; position:sticky; top:20px; }
-  .stabs { display:flex; border-bottom:1px solid var(--line); }
-  .stab { flex:1; padding:12px 0; border:none; background:#FAFBFC; cursor:pointer;
-    font-family:inherit; font-size:13px; font-weight:700; color:var(--sub); transition:.15s;
-    border-bottom:2px solid transparent; }
-  .stab.on { background:#fff; color:var(--navy); border-bottom-color:var(--blue); }
-  .sbody { padding:16px; max-height:620px; overflow-y:auto; }
+.dow{ display:grid; grid-template-columns:repeat(7,1fr); margin-bottom:5px; }
+.dow div{ text-align:center; font-size:11.5px; font-weight:700; color:var(--sub); padding:5px 0; }
+.dow div:first-child{ color:var(--sun); }
+.dow div:last-child{ color:var(--sat); }
 
-  .shead { display:flex; align-items:baseline; gap:7px; margin-bottom:12px; }
-  .shead .sd { font-size:16px; font-weight:800; color:var(--navy); letter-spacing:-.3px; }
-  .shead .sc { font-size:11.5px; font-weight:700; color:var(--blue); }
+.grid{ display:grid; grid-template-columns:repeat(7,1fr); gap:4px; }
+.cell{ min-height:88px; border:1px solid transparent; border-radius:9px; padding:5px 4px;
+  cursor:pointer; transition:.13s; background:#FCFDFE; display:flex; flex-direction:column; gap:3px;
+  user-select:none; }
+.cell:hover{ background:#F4F9FC; border-color:#D8E7F1; }
+.cell.out{ background:transparent; } .cell.out .dn{ color:#DDE3E9; }
+.cell.sel{ background:#EDF6FB; border-color:var(--blue); box-shadow:0 0 0 2px rgba(143,199,232,.2); }
+.cell.msel{ background:#E9F5EE; border-color:var(--green); box-shadow:0 0 0 2px rgba(168,213,162,.25); }
+.cell.today .dn{ background:var(--navy); color:#fff; }
+.dn{ font-size:12.5px; font-weight:700; width:21px; height:21px; display:flex;
+  align-items:center; justify-content:center; border-radius:6px; flex-shrink:0; }
+.cell.sun .dn{ color:var(--sun); } .cell.sat .dn{ color:var(--sat); }
+.cell.today.sun .dn,.cell.today.sat .dn{ color:#fff; }
+.chips{ display:flex; flex-direction:column; gap:2px; overflow:hidden; }
+.chip{ font-size:10px; font-weight:700; padding:2px 5px; border-radius:4px;
+  white-space:nowrap; overflow:hidden; text-overflow:ellipsis; line-height:1.5; }
+.chip.done{ opacity:.4; text-decoration:line-through; }
+.more{ font-size:9.5px; font-weight:700; color:var(--faint); padding-left:4px; }
 
-  .add { width:100%; padding:11px; border:1.5px dashed #D3DBE3; background:#fff;
-    border-radius:10px; cursor:pointer; font-family:inherit; font-size:13px;
-    font-weight:700; color:var(--sub); transition:.15s; margin-bottom:12px; }
-  .add:hover { border-color:var(--blue); color:var(--blue); background:#FBFDFE; }
+/* Side */
+.side{ background:var(--card); border:1px solid var(--line); border-radius:16px;
+  box-shadow:var(--shadow); overflow:hidden; position:sticky; top:18px; }
+.stabs{ display:flex; border-bottom:1px solid var(--line); }
+.stab{ flex:1; padding:12px 0; border:none; background:#FAFBFC; cursor:pointer;
+  font-family:inherit; font-size:13px; font-weight:700; color:var(--sub);
+  transition:.15s; border-bottom:2px solid transparent; }
+.stab.on{ background:#fff; color:var(--navy); border-bottom-color:var(--blue); }
+.sbody{ padding:15px; max-height:660px; overflow-y:auto; }
 
-  .form { border:1px solid var(--line); border-radius:11px; padding:14px;
-    margin-bottom:12px; background:#FCFDFE; display:none; }
-  .form.on { display:block; animation:pop .2s ease; }
-  @keyframes pop { from{opacity:0;transform:translateY(-5px)} to{opacity:1;transform:none} }
-  .fg { margin-bottom:10px; }
-  label { display:block; font-size:11px; font-weight:700; color:var(--sub); margin-bottom:5px; }
-  input, textarea { width:100%; padding:9px 11px; border:1.5px solid var(--line);
-    border-radius:8px; font-family:inherit; font-size:13.5px; color:var(--text); background:#fff; transition:.15s; }
-  input:focus, textarea:focus { outline:none; border-color:var(--blue); box-shadow:0 0 0 3px rgba(143,199,232,.15); }
-  textarea { resize:vertical; min-height:52px; line-height:1.5; }
-  .btns { display:flex; gap:6px; margin-top:12px; }
-  .btn { flex:1; padding:10px; border:none; border-radius:8px; cursor:pointer;
-    font-family:inherit; font-size:13px; font-weight:700; transition:.15s; }
-  .btn-p { background:var(--navy); color:#fff; }
-  .btn-p:hover { background:#3D5166; }
-  .btn-s { background:#F1F4F7; color:var(--sub); }
-  .btn-s:hover { background:#E8EDF2; }
+.shead{ display:flex; align-items:baseline; gap:7px; margin-bottom:11px; }
+.sd{ font-size:16px; font-weight:800; color:var(--navy); letter-spacing:-.3px; }
+.sc{ font-size:11.5px; font-weight:700; color:var(--blue); }
 
-  .item { border:1px solid var(--line); border-left:3px solid var(--blue); border-radius:10px;
-    padding:11px 12px; margin-bottom:7px; display:flex; gap:9px; align-items:flex-start;
-    background:#fff; transition:.15s; }
-  .item:hover { border-color:#D5DEE6; }
-  .item.done { opacity:.5; border-left-color:var(--green); }
-  .item.done .it { text-decoration:line-through; color:var(--sub); }
-  .item.past { border-left-color:var(--faint); }
-  .chk { flex-shrink:0; width:18px; height:18px; border:2px solid #D3DBE3; border-radius:5px;
-    cursor:pointer; margin-top:1px; transition:.15s; display:flex; align-items:center;
-    justify-content:center; background:#fff; }
-  .chk:hover { border-color:var(--green); }
-  .chk.on { background:var(--green); border-color:var(--green); }
-  .chk.on::after { content:''; width:4px; height:8px; border:solid #fff;
-    border-width:0 2px 2px 0; transform:rotate(45deg) translateY(-1px); }
-  .ib { flex:1; min-width:0; }
-  .it { font-size:13.5px; font-weight:700; letter-spacing:-.2px; line-height:1.4; word-break:break-word; }
-  .im { display:flex; gap:6px; align-items:center; margin-top:4px; flex-wrap:wrap; }
-  .tm { font-size:11.5px; font-weight:700; color:#4A90B8; background:rgba(143,199,232,.14);
-    padding:1.5px 6px; border-radius:4px; }
-  .item.past .tm, .item.done .tm { color:var(--sub); background:#F1F4F7; }
-  .un { font-size:10.5px; color:var(--faint); font-weight:600; }
-  .mm { font-size:11.5px; color:var(--sub); margin-top:5px; line-height:1.55;
-    white-space:pre-wrap; word-break:break-word; }
-  .acts { display:flex; gap:1px; flex-shrink:0; }
-  .ico { width:24px; height:24px; border:none; background:transparent; cursor:pointer;
-    border-radius:6px; color:var(--faint); transition:.15s; display:flex;
-    align-items:center; justify-content:center; }
-  .ico:hover { background:#F1F4F7; color:var(--sub); }
-  .ico.del:hover { background:rgba(232,143,143,.12); color:var(--danger); }
-  .ico svg { width:12px; height:12px; }
+.add{ width:100%; padding:11px; border:1.5px dashed #D3DBE3; background:#fff; border-radius:10px;
+  cursor:pointer; font-family:inherit; font-size:13px; font-weight:700; color:var(--sub);
+  transition:.15s; margin-bottom:11px; }
+.add:hover{ border-color:var(--blue); color:var(--blue); background:#FBFDFE; }
+.add:disabled{ opacity:.45; cursor:not-allowed; }
 
-  .dg { margin-bottom:16px; }
-  .dgh { display:flex; align-items:center; gap:7px; margin-bottom:7px; }
-  .dgh .l { font-size:12px; font-weight:800; color:var(--navy); }
-  .dgh .bd { font-size:9.5px; font-weight:800; padding:2px 6px; border-radius:4px;
-    background:rgba(143,199,232,.2); color:#4A90B8; }
-  .dgh .bd.g { background:rgba(168,213,162,.24); color:#5F9556; }
-  .dgh .ln { flex:1; height:1px; background:var(--line); }
+.form{ border:1px solid var(--line); border-radius:11px; padding:14px; margin-bottom:11px; background:#FCFDFE; }
+.fg{ margin-bottom:11px; }
+label{ display:block; font-size:11px; font-weight:800; color:var(--sub); margin-bottom:5px; }
+input,textarea,select{ width:100%; padding:9px 11px; border:1.5px solid var(--line); border-radius:8px;
+  font-family:inherit; font-size:13.5px; color:var(--text); background:#fff; transition:.15s; }
+input:focus,textarea:focus,select:focus{ outline:none; border-color:var(--blue);
+  box-shadow:0 0 0 3px rgba(143,199,232,.15); }
+textarea{ resize:vertical; min-height:50px; line-height:1.5; }
 
-  .empty { text-align:center; padding:40px 16px; }
-  .empty .em { font-size:28px; margin-bottom:9px; opacity:.4; }
-  .empty .et { font-size:13px; color:var(--sub); font-weight:600; }
-  .empty .es { font-size:11.5px; color:var(--faint); margin-top:4px; }
+.kidsel{ display:flex; gap:5px; flex-wrap:wrap; }
+.ks{ padding:6px 11px; border:1.5px solid var(--line); background:#fff; border-radius:8px;
+  cursor:pointer; font-family:inherit; font-size:12.5px; font-weight:700; color:var(--sub);
+  transition:.15s; display:inline-flex; align-items:center; gap:5px; }
+.ks.on{ border-color:transparent; color:#fff; }
+.ks .kdot{ width:8px; height:8px; }
+.ks.on .kdot{ background:#fff !important; }
 
-  .toast { position:fixed; bottom:24px; left:50%; transform:translateX(-50%) translateY(80px);
-    background:var(--navy); color:#fff; padding:10px 18px; border-radius:9px;
-    font-size:13px; font-weight:600; box-shadow:0 6px 22px rgba(44,62,80,.25);
-    transition:transform .26s cubic-bezier(.2,.9,.3,1.2); z-index:99; }
-  .toast.on { transform:translateX(-50%) translateY(0); }
+.tsec{ display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+.pre{ display:flex; gap:3px; flex-wrap:wrap; margin-top:6px; }
+.pb{ padding:4px 8px; border:1px solid var(--line); background:#fff; border-radius:6px;
+  cursor:pointer; font-family:inherit; font-size:11px; font-weight:700; color:var(--sub); transition:.13s; }
+.pb:hover{ border-color:var(--blue); color:var(--blue); background:#FBFDFE; }
+.pb.on{ background:var(--blue); border-color:var(--blue); color:#fff; }
+.dur{ font-size:11px; font-weight:700; color:var(--green); margin-top:6px; }
+.dur.err{ color:var(--danger); }
 
-  @media (max-width:900px) {
-    .layout { grid-template-columns:1fr; }
-    .side { position:static; }
-    .cell { min-height:64px; }
-    .chip { font-size:0; padding:0; height:4px; border-radius:2px; margin-bottom:1px; }
-    .chip.done { background:#E4E9EE; }
-    .more { display:none; }
-    .sbody { max-height:none; }
-  }
-  @media (max-width:520px) {
-    .wrap { padding:0 12px 40px; }
-    .cal { padding:12px; }
-    .grid { gap:2px; }
-    .cell { min-height:54px; padding:4px 3px; }
-  }
+.mdlist{ background:rgba(168,213,162,.12); border:1px solid rgba(168,213,162,.4);
+  border-radius:8px; padding:9px 11px; margin-bottom:11px; }
+.mdlist .t{ font-size:11px; font-weight:800; color:#5F9556; margin-bottom:5px; }
+.mdlist .d{ font-size:12px; font-weight:600; color:var(--sub); line-height:1.6; }
+
+.btns{ display:flex; gap:6px; margin-top:12px; }
+.btn{ flex:1; padding:10px; border:none; border-radius:8px; cursor:pointer;
+  font-family:inherit; font-size:13px; font-weight:700; transition:.15s; }
+.btn-p{ background:var(--navy); color:#fff; } .btn-p:hover{ background:#3D5166; }
+.btn-s{ background:#F1F4F7; color:var(--sub); } .btn-s:hover{ background:#E8EDF2; }
+
+/* Item */
+.item{ border:1px solid var(--line); border-left:3px solid var(--blue); border-radius:10px;
+  padding:10px 12px; margin-bottom:7px; display:flex; gap:9px; align-items:flex-start;
+  background:#fff; transition:.15s; }
+.item:hover{ border-color:#D5DEE6; }
+.item.done{ opacity:.5; }
+.item.done .it{ text-decoration:line-through; color:var(--sub); }
+.chk{ flex-shrink:0; width:18px; height:18px; border:2px solid #D3DBE3; border-radius:5px;
+  cursor:pointer; margin-top:1px; transition:.15s; display:flex; align-items:center;
+  justify-content:center; background:#fff; }
+.chk:hover{ border-color:var(--green); }
+.chk.on{ background:var(--green); border-color:var(--green); }
+.chk.on::after{ content:''; width:4px; height:8px; border:solid #fff; border-width:0 2px 2px 0;
+  transform:rotate(45deg) translateY(-1px); }
+.ib{ flex:1; min-width:0; }
+.it{ font-size:13.5px; font-weight:700; letter-spacing:-.2px; line-height:1.4; word-break:break-word; }
+.im{ display:flex; gap:5px; align-items:center; margin-top:4px; flex-wrap:wrap; }
+.kt{ font-size:10px; font-weight:800; padding:1.5px 6px; border-radius:4px; color:#fff; }
+.tm{ font-size:11.5px; font-weight:700; color:#4A90B8; background:rgba(143,199,232,.14);
+  padding:1.5px 6px; border-radius:4px; }
+.item.done .tm{ color:var(--sub); background:#F1F4F7; }
+.un{ font-size:10.5px; color:var(--faint); font-weight:600; }
+.mm{ font-size:11.5px; color:var(--sub); margin-top:5px; line-height:1.55; white-space:pre-wrap; word-break:break-word; }
+.acts{ display:flex; gap:1px; flex-shrink:0; }
+.ico{ width:24px; height:24px; border:none; background:transparent; cursor:pointer;
+  border-radius:6px; color:var(--faint); transition:.15s; display:flex; align-items:center; justify-content:center; }
+.ico:hover{ background:#F1F4F7; color:var(--sub); }
+.ico.del:hover{ background:rgba(232,143,143,.12); color:var(--danger); }
+.ico svg{ width:12px; height:12px; }
+
+.dg{ margin-bottom:15px; }
+.dgh{ display:flex; align-items:center; gap:7px; margin-bottom:6px; }
+.dgh .l{ font-size:12px; font-weight:800; color:var(--navy); }
+.dgh .bd{ font-size:9.5px; font-weight:800; padding:2px 6px; border-radius:4px;
+  background:rgba(143,199,232,.2); color:#4A90B8; }
+.dgh .bd.g{ background:rgba(168,213,162,.24); color:#5F9556; }
+.dgh .ln{ flex:1; height:1px; background:var(--line); }
+
+.empty{ text-align:center; padding:40px 16px; }
+.empty .em{ font-size:28px; margin-bottom:9px; opacity:.4; }
+.empty .et{ font-size:13px; color:var(--sub); font-weight:600; }
+.empty .es{ font-size:11.5px; color:var(--faint); margin-top:4px; }
+
+/* Modal */
+.ov{ position:fixed; inset:0; background:rgba(44,62,80,.35); display:none;
+  align-items:center; justify-content:center; z-index:100; padding:20px; }
+.ov.on{ display:flex; }
+.modal{ background:#fff; border-radius:14px; padding:20px; width:100%; max-width:390px;
+  box-shadow:0 12px 44px rgba(44,62,80,.24); max-height:80vh; overflow-y:auto; }
+.mt{ font-size:16px; font-weight:800; color:var(--navy); margin-bottom:14px; }
+.krow{ display:flex; align-items:center; gap:8px; padding:8px; border:1px solid var(--line);
+  border-radius:9px; margin-bottom:7px; }
+.krow input[type=text]{ flex:1; padding:7px 9px; font-size:13px; }
+.krow input[type=color]{ width:32px; height:32px; padding:2px; border-radius:7px;
+  cursor:pointer; border:1.5px solid var(--line); flex-shrink:0; }
+.krow .ico{ flex-shrink:0; }
+
+.toast{ position:fixed; bottom:24px; left:50%; transform:translateX(-50%) translateY(80px);
+  background:var(--navy); color:#fff; padding:10px 18px; border-radius:9px; font-size:13px;
+  font-weight:600; box-shadow:0 6px 22px rgba(44,62,80,.25);
+  transition:transform .26s cubic-bezier(.2,.9,.3,1.2); z-index:200; }
+.toast.on{ transform:translateX(-50%) translateY(0); }
+
+@media (max-width:900px){
+  .layout{ grid-template-columns:1fr; }
+  .side{ position:static; }
+  .cell{ min-height:64px; }
+  .chip{ font-size:0; padding:0; height:4px; border-radius:2px; }
+  .more{ display:none; }
+  .sbody{ max-height:none; }
+}
+@media (max-width:520px){
+  .wrap{ padding:0 12px 40px; }
+  .cal{ padding:12px; }
+  .grid{ gap:2px; }
+  .cell{ min-height:54px; padding:4px 3px; }
+  .tsec{ grid-template-columns:1fr; }
+}
 </style>
 </head>
 <body>
 <div class="wrap">
   <header>
     <h1>아이스케줄</h1>
-    <div class="sub">달력에서 날짜를 눌러 일정을 확인하고 추가하세요</div>
-    <div class="accent-bar"></div>
+    <div class="sub">아이별로 일정을 색으로 구분하고 한눈에 관리하세요</div>
+    <div class="abar"></div>
   </header>
+
+  <div class="kbar" id="kbar"></div>
 
   <div class="layout">
     <div class="cal">
-      <div class="cal-top">
-        <div class="cal-title" id="ctitle"></div>
+      <div class="ctop">
+        <div class="ctitle" id="ctitle"></div>
         <div class="nav">
+          <button class="mb" id="mbtn">여러 날 선택</button>
           <button class="nb" id="prev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button>
-          <button class="today-b" id="tbtn">오늘</button>
+          <button class="tb" id="tbtn">오늘</button>
           <button class="nb" id="next"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg></button>
         </div>
       </div>
+      <div class="mhint" id="mhint">날짜를 눌러 선택하세요 (PC는 드래그 가능) · 선택 후 오른쪽에서 일정을 등록하면 모든 날짜에 한 번에 추가됩니다</div>
       <div class="dow"><div>일</div><div>월</div><div>화</div><div>수</div><div>목</div><div>금</div><div>토</div></div>
       <div class="grid" id="grid"></div>
     </div>
@@ -205,24 +264,49 @@
   </div>
 </div>
 
+<div class="ov" id="ov"><div class="modal" id="modal"></div></div>
 <div class="toast" id="toast"></div>
 
 <script>
-const KEY='ischedule.v2';
-let data=[], cur=new Date(), sel=null, stab='day', formOpen=false, editId=null;
+const KEY='ischedule.v3';
+const PALETTE=['#8FC7E8','#A8D5A2','#E8B98F','#C7A8E8','#E88FA8','#8FE8D5','#E8DC8F','#A8B8E8'];
+let kids=[], data=[], cur=new Date(), sel=null, msel=[], multi=false,
+    stab='day', formOpen=false, editId=null, filter='all',
+    dragging=false, dragStart=null;
 
-function load(){ try{ data=JSON.parse(localStorage.getItem(KEY))||[] }catch(e){ data=[] } }
-function persist(){ try{ localStorage.setItem(KEY,JSON.stringify(data)) }catch(e){ toast('저장 실패') } }
+/* ── storage ── */
+function load(){
+  try{
+    const s=JSON.parse(localStorage.getItem(KEY));
+    if(s){ kids=s.kids||[]; data=s.data||[]; }
+  }catch(e){ kids=[]; data=[]; }
+  if(!kids.length) kids=[{id:'k1',name:'첫째',color:PALETTE[0]}];
+}
+function persist(){
+  try{ localStorage.setItem(KEY,JSON.stringify({kids,data})) }
+  catch(e){ toast('저장 실패 — 저장공간 확인') }
+}
 
+/* ── utils ── */
 const $=id=>document.getElementById(id);
 const pad=n=>String(n).padStart(2,'0');
 const ymd=d=>`${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
 const DAYS=['일','월','화','수','목','금','토'];
 const esc=s=>{const d=document.createElement('div');d.textContent=s;return d.innerHTML};
+const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,6);
+const kid=id=>kids.find(k=>k.id===id)||{name:'?',color:'#B8C0C8'};
 
 function toast(m){ const t=$('toast'); t.textContent=m; t.classList.add('on');
-  clearTimeout(t._x); t._x=setTimeout(()=>t.classList.remove('on'),2000); }
+  clearTimeout(t._x); t._x=setTimeout(()=>t.classList.remove('on'),2100); }
 
+const SLOTS=(()=>{const a=[];for(let h=0;h<24;h++){a.push(`${pad(h)}:00`);a.push(`${pad(h)}:30`);}return a})();
+const mins=t=>{const[h,m]=t.split(':').map(Number);return h*60+m};
+function durTxt(s,e){
+  const d=mins(e)-mins(s);
+  if(d<=0) return null;
+  const h=Math.floor(d/60), m=d%60;
+  return h?(m?`${h}시간 ${m}분`:`${h}시간`):`${m}분`;
+}
 function until(iso){
   const df=new Date(iso)-new Date();
   if(df<0) return '지남';
@@ -233,42 +317,99 @@ function until(iso){
   if(h<24) return `${h}시간 ${mn%60}분 후`;
   return `${Math.floor(h/24)}일 후`;
 }
-
-const byDate=d=>data.filter(e=>e.date===d).sort((a,b)=>a.time<b.time?-1:1);
+const visible=e=>filter==='all'||e.kidId===filter;
+const byDate=d=>data.filter(e=>e.date===d&&visible(e)).sort((a,b)=>a.start<b.start?-1:1);
 
 const ICO_E='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.12 2.12 0 0 1 3 3L12 15l-4 1 1-4Z"/></svg>';
 const ICO_D='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2m3 0v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M10 11v6M14 11v6"/></svg>';
 
-/* ── Calendar ── */
+/* ── kids bar ── */
+function renderKids(){
+  let h=`<span class="klb">아이</span>`;
+  h+=`<button class="kp ${filter==='all'?'on':''}" data-f="all" ${filter==='all'?'style="background:#2C3E50"':''}>전체</button>`;
+  kids.forEach(k=>{
+    const on=filter===k.id;
+    h+=`<button class="kp ${on?'on':''}" data-f="${k.id}" ${on?`style="background:${k.color}"`:''}>
+        <span class="kdot" style="background:${k.color}"></span>${esc(k.name)}</button>`;
+  });
+  h+=`<button class="kadd" id="kadd">+ 아이 추가</button>`;
+  h+=`<button class="kmg" id="kmg">관리</button>`;
+  $('kbar').innerHTML=h;
+}
+
+/* ── calendar ── */
 function renderCal(){
   const y=cur.getFullYear(), m=cur.getMonth();
-  $('ctitle').innerHTML=`${y}년 ${m+1}월<span>${DAYS[new Date().getDay()]}요일 기준</span>`;
-  const first=new Date(y,m,1), start=new Date(first);
-  start.setDate(1-first.getDay());
+  $('ctitle').textContent=`${y}년 ${m+1}월`;
+  const first=new Date(y,m,1), st=new Date(first); st.setDate(1-first.getDay());
   const today=ymd(new Date());
   let h='';
   for(let i=0;i<42;i++){
-    const d=new Date(start); d.setDate(start.getDate()+i);
-    const k=ymd(d), out=d.getMonth()!==m, dw=d.getDay();
-    const evs=byDate(k);
-    const cls=['cell', out?'out':'', k===today?'today':'', k===sel?'sel':'',
-               dw===0?'sun':'', dw===6?'sat':''].filter(Boolean).join(' ');
-    const shown=evs.slice(0,3).map(e=>`<div class="chip ${e.done?'done':''}">${esc(e.title)}</div>`).join('');
+    const d=new Date(st); d.setDate(st.getDate()+i);
+    const k=ymd(d), out=d.getMonth()!==m, dw=d.getDay(), evs=byDate(k);
+    const cls=['cell',out?'out':'',k===today?'today':'',
+      (!multi&&k===sel)?'sel':'',(multi&&msel.includes(k))?'msel':'',
+      dw===0?'sun':'',dw===6?'sat':''].filter(Boolean).join(' ');
+    const chips=evs.slice(0,3).map(e=>{
+      const c=kid(e.kidId).color;
+      return `<div class="chip ${e.done?'done':''}" style="background:${c}22;color:${c}">${esc(e.title)}</div>`;
+    }).join('');
     const more=evs.length>3?`<div class="more">+${evs.length-3}</div>`:'';
-    h+=`<div class="${cls}" data-k="${k}"><div class="dn">${d.getDate()}</div>
-        <div class="chips">${shown}${more}</div></div>`;
+    h+=`<div class="${cls}" data-k="${k}"><div class="dn">${d.getDate()}</div><div class="chips">${chips}${more}</div></div>`;
   }
   $('grid').innerHTML=h;
 }
 
-/* ── Side ── */
-function itemHTML(e,showDate){
-  const iso=`${e.date}T${e.time}`, past=new Date(iso)<new Date() && !e.done;
-  return `<div class="item ${e.done?'done':''} ${past?'past':''}">
+/* ── form ── */
+function formHTML(){
+  const e=editId?data.find(x=>x.id===editId):null;
+  const kSel=e?e.kidId:(kids[0]&&kids[0].id);
+  const s=e?e.start:'09:00', en=e?e.end:'10:00';
+  const dt=durTxt(s,en);
+  let h=`<div class="form" id="form">`;
+  if(multi&&msel.length&&!e){
+    const sorted=msel.slice().sort();
+    const txt=sorted.map(d=>{const[,mm,dd]=d.split('-');return `${+mm}/${+dd}`}).join(', ');
+    h+=`<div class="mdlist"><div class="t">선택한 ${msel.length}개 날짜에 동시 등록</div><div class="d">${txt}</div></div>`;
+  }
+  h+=`<div class="fg"><label>아이</label><div class="kidsel" id="ksel">
+      ${kids.map(k=>`<button class="ks ${k.id===kSel?'on':''}" data-k="${k.id}"
+        ${k.id===kSel?`style="background:${k.color}"`:''}>
+        <span class="kdot" style="background:${k.color}"></span>${esc(k.name)}</button>`).join('')}
+      </div><input type="hidden" id="f-k" value="${kSel||''}"></div>`;
+  h+=`<div class="fg"><label>일정 제목</label>
+      <input type="text" id="f-t" value="${e?esc(e.title):''}" placeholder="예: 피아노 학원" autocomplete="off"></div>`;
+  if(!multi||e){
+    h+=`<div class="fg"><label>날짜</label>
+        <input type="date" id="f-d" value="${e?e.date:(sel||ymd(new Date()))}"></div>`;
+  }
+  h+=`<div class="fg"><label>시작 시간</label>
+      <input type="time" id="f-s" value="${s}" step="1800">
+      <div class="pre" id="pre-s">${SLOTS.filter((_,i)=>i>=12&&i<=44).map(t=>
+        `<button class="pb ${t===s?'on':''}" data-s="${t}">${t}</button>`).join('')}</div></div>`;
+  h+=`<div class="fg"><label>종료 시간</label>
+      <input type="time" id="f-e" value="${en}" step="1800">
+      <div class="pre" id="pre-e">${['+30분','+1시간','+1시간30분','+2시간','+3시간'].map((l,i)=>
+        `<button class="pb" data-add="${[30,60,90,120,180][i]}">${l}</button>`).join('')}</div>
+      <div class="dur ${dt?'':'err'}" id="dur">${dt?`소요 ${dt}`:'종료가 시작보다 빨라요'}</div></div>`;
+  h+=`<div class="fg"><label>메모 <span style="font-weight:500;color:var(--faint)">(선택)</span></label>
+      <textarea id="f-m" placeholder="장소, 준비물 등">${e?esc(e.memo||''):''}</textarea></div>`;
+  h+=`<div class="btns"><button class="btn btn-s" id="cancel">취소</button>
+      <button class="btn btn-p" id="save">${e?'수정':(multi&&msel.length?`${msel.length}개 날짜에 저장`:'저장')}</button></div></div>`;
+  return h;
+}
+
+function itemHTML(e){
+  const k=kid(e.kidId), iso=`${e.date}T${e.start}`, past=new Date(iso)<new Date()&&!e.done;
+  return `<div class="item ${e.done?'done':''}" style="border-left-color:${e.done?'var(--green)':(past?'var(--faint)':k.color)}">
     <div class="chk ${e.done?'on':''}" data-c="${e.id}"></div>
     <div class="ib">
       <div class="it">${esc(e.title)}</div>
-      <div class="im"><span class="tm">${e.time}</span>${!e.done?`<span class="un">${until(iso)}</span>`:''}</div>
+      <div class="im">
+        <span class="kt" style="background:${k.color}">${esc(k.name)}</span>
+        <span class="tm">${e.start}~${e.end}</span>
+        ${!e.done?`<span class="un">${until(iso)}</span>`:''}
+      </div>
       ${e.memo?`<div class="mm">${esc(e.memo)}</div>`:''}
     </div>
     <div class="acts">
@@ -278,110 +419,252 @@ function itemHTML(e,showDate){
   </div>`;
 }
 
-function formHTML(){
-  const e=editId?data.find(x=>x.id===editId):null;
-  return `<div class="form ${formOpen?'on':''}" id="form">
-    <div class="fg"><label>일정 제목</label>
-      <input type="text" id="f-t" value="${e?esc(e.title):''}" placeholder="예: 아르떼 T5 시제품 미팅" autocomplete="off"></div>
-    <div class="fg"><label>날짜</label><input type="date" id="f-d" value="${e?e.date:(sel||ymd(new Date()))}"></div>
-    <div class="fg"><label>시간</label><input type="time" id="f-tm" value="${e?e.time:'09:00'}"></div>
-    <div class="fg"><label>메모 <span style="font-weight:500;color:var(--faint)">(선택)</span></label>
-      <textarea id="f-m" placeholder="장소, 준비물, 참석자 등">${e?esc(e.memo||''):''}</textarea></div>
-    <div class="btns"><button class="btn btn-s" id="cancel">취소</button>
-      <button class="btn btn-p" id="save">${e?'수정':'저장'}</button></div>
-  </div>`;
-}
-
+/* ── side ── */
 function renderSide(){
   const box=$('sbody');
   if(stab==='day'){
+    let h='';
+    if(multi){
+      h+=`<div class="shead"><span class="sd">여러 날 선택</span>
+          <span class="sc">${msel.length}개</span></div>`;
+      if(!msel.length){
+        h+=`<div class="empty"><div class="em">📅</div><div class="et">날짜를 선택하세요</div>
+            <div class="es">달력에서 여러 날을 탭하거나 드래그</div></div>`;
+        box.innerHTML=h; return;
+      }
+      h+=formOpen?formHTML():`<button class="add" id="addb">+ 선택한 ${msel.length}개 날짜에 일정 추가</button>`;
+      box.innerHTML=h; return;
+    }
     const k=sel||ymd(new Date());
-    const [y,m,d]=k.split('-').map(Number);
-    const dt=new Date(y,m-1,d);
-    const evs=byDate(k);
-    let h=`<div class="shead"><span class="sd">${m}월 ${d}일 (${DAYS[dt.getDay()]})</span>`;
+    const [y,m,d]=k.split('-').map(Number), dt=new Date(y,m-1,d), evs=byDate(k);
+    h+=`<div class="shead"><span class="sd">${m}월 ${d}일 (${DAYS[dt.getDay()]})</span>`;
     if(evs.length) h+=`<span class="sc">${evs.length}건</span>`;
     h+=`</div>`;
-    h+=formOpen?formHTML():`<button class="add" id="addb">+ 이 날짜에 일정 추가</button>`;
-    h+=evs.length ? evs.map(e=>itemHTML(e)).join('')
-      : `<div class="empty"><div class="em">🗓️</div><div class="et">일정이 없습니다</div>
-         <div class="es">위 버튼으로 추가하세요</div></div>`;
+    h+=formOpen?formHTML():`<button class="add" id="addb" ${!kids.length?'disabled':''}>+ 이 날짜에 일정 추가</button>`;
+    h+=evs.length?evs.map(itemHTML).join('')
+      :`<div class="empty"><div class="em">🗓️</div><div class="et">일정이 없습니다</div>
+        <div class="es">위 버튼으로 추가하세요</div></div>`;
     box.innerHTML=h;
   }else{
-    const up=data.filter(e=>!e.done).sort((a,b)=>(a.date+a.time)<(b.date+b.time)?-1:1);
-    const dn=data.filter(e=>e.done).sort((a,b)=>(a.date+a.time)>(b.date+b.time)?-1:1);
+    const up=data.filter(e=>!e.done&&visible(e)).sort((a,b)=>(a.date+a.start)<(b.date+b.start)?-1:1);
+    const dn=data.filter(e=>e.done&&visible(e)).sort((a,b)=>(a.date+a.start)>(b.date+b.start)?-1:1);
     let h=`<div class="shead"><span class="sd">전체 일정</span><span class="sc">${up.length}건 예정</span></div>`;
-    h+=formOpen?formHTML():`<button class="add" id="addb">+ 새 일정 추가</button>`;
-    if(!up.length && !dn.length){
+    h+=formOpen?formHTML():`<button class="add" id="addb" ${!kids.length?'disabled':''}>+ 새 일정 추가</button>`;
+    if(!up.length&&!dn.length){
       h+=`<div class="empty"><div class="em">📋</div><div class="et">등록된 일정이 없습니다</div>
           <div class="es">달력에서 날짜를 눌러보세요</div></div>`;
     }else{
       const g={}; up.forEach(e=>{(g[e.date]=g[e.date]||[]).push(e)});
       const t0=new Date(); t0.setHours(0,0,0,0);
       h+=Object.keys(g).map(k=>{
-        const [y,m,d]=k.split('-').map(Number);
-        const dt=new Date(y,m-1,d), df=Math.round((dt-t0)/86400000);
+        const [y,m,d]=k.split('-').map(Number), dt=new Date(y,m-1,d);
+        const df=Math.round((dt-t0)/86400000);
         const bd=df===0?'<span class="bd">오늘</span>':df===1?'<span class="bd g">내일</span>':'';
         return `<div class="dg"><div class="dgh"><span class="l">${m}월 ${d}일 (${DAYS[dt.getDay()]})</span>
-                ${bd}<span class="ln"></span></div>${g[k].map(e=>itemHTML(e)).join('')}</div>`;
+                ${bd}<span class="ln"></span></div>${g[k].map(itemHTML).join('')}</div>`;
       }).join('');
       if(dn.length) h+=`<div class="dg"><div class="dgh"><span class="l">완료 ${dn.length}건</span>
-        <span class="ln"></span></div>${dn.map(e=>itemHTML(e)).join('')}</div>`;
+        <span class="ln"></span></div>${dn.map(itemHTML).join('')}</div>`;
     }
     box.innerHTML=h;
   }
 }
 
-function render(){ renderCal(); renderSide(); }
+function render(){ renderKids(); renderCal(); renderSide(); }
 
-/* ── Events ── */
-$('grid').onclick=ev=>{
+/* ── save ── */
+function doSave(){
+  const kidId=$('f-k').value;
+  if(!kidId){ toast('아이를 선택하세요'); return; }
+  const t=$('f-t').value.trim();
+  if(!t){ toast('제목을 입력하세요'); $('f-t').focus(); return; }
+  const s=$('f-s').value, e2=$('f-e').value;
+  if(!s||!e2){ toast('시간을 입력하세요'); return; }
+  if(mins(e2)<=mins(s)){ toast('종료 시간이 시작보다 빨라요'); return; }
+  const memo=$('f-m').value.trim();
+
+  if(editId){
+    Object.assign(data.find(x=>x.id===editId),
+      {kidId,title:t,date:$('f-d').value,start:s,end:e2,memo});
+    toast('수정되었습니다');
+    sel=$('f-d').value;
+  }else if(multi&&msel.length){
+    msel.forEach(d=>data.push({id:uid(),kidId,title:t,date:d,start:s,end:e2,memo,done:false}));
+    toast(`${msel.length}개 날짜에 등록했습니다`);
+    msel=[];
+  }else{
+    const d=$('f-d').value;
+    data.push({id:uid(),kidId,title:t,date:d,start:s,end:e2,memo,done:false});
+    toast('일정이 추가되었습니다');
+    sel=d;
+  }
+  formOpen=false; editId=null; persist(); render();
+}
+
+/* ── kid modal ── */
+function openKidModal(){
+  let h=`<div class="mt">아이 관리</div><div id="krows">`;
+  h+=kids.map(k=>`<div class="krow" data-id="${k.id}">
+    <input type="color" value="${k.color}" data-color="${k.id}">
+    <input type="text" value="${esc(k.name)}" data-name="${k.id}" maxlength="10">
+    <button class="ico del" data-kdel="${k.id}">${ICO_D}</button></div>`).join('');
+  h+=`</div><button class="add" id="krowadd" style="margin:8px 0 0">+ 아이 추가</button>
+      <div class="btns"><button class="btn btn-s" id="kclose">닫기</button>
+      <button class="btn btn-p" id="ksave">저장</button></div>`;
+  $('modal').innerHTML=h; $('ov').classList.add('on');
+}
+
+/* ── events ── */
+$('kbar').onclick=ev=>{
+  const f=ev.target.closest('[data-f]');
+  if(f){ filter=f.dataset.f; render(); return; }
+  if(ev.target.closest('#kadd')||ev.target.closest('#kmg')) openKidModal();
+};
+
+$('ov').onclick=ev=>{
+  if(ev.target.id==='ov'||ev.target.closest('#kclose')){ $('ov').classList.remove('on'); return; }
+  if(ev.target.closest('#krowadd')){
+    const used=kids.map(k=>k.color);
+    const c=PALETTE.find(p=>!used.includes(p))||PALETTE[kids.length%PALETTE.length];
+    const row=document.createElement('div');
+    const nid=uid();
+    row.className='krow'; row.dataset.id=nid;
+    row.innerHTML=`<input type="color" value="${c}" data-color="${nid}">
+      <input type="text" value="" placeholder="이름" data-name="${nid}" maxlength="10">
+      <button class="ico del" data-kdel="${nid}">${ICO_D}</button>`;
+    $('krows').appendChild(row); row.querySelector('input[type=text]').focus();
+    return;
+  }
+  const kd=ev.target.closest('[data-kdel]');
+  if(kd){
+    const id=kd.dataset.kdel;
+    const cnt=data.filter(e=>e.kidId===id).length;
+    if(cnt && !confirm(`이 아이의 일정 ${cnt}건도 함께 삭제됩니다. 계속할까요?`)) return;
+    kd.closest('.krow').remove();
+    return;
+  }
+  if(ev.target.closest('#ksave')){
+    const rows=[...$('krows').querySelectorAll('.krow')];
+    const nk=rows.map(r=>({
+      id:r.dataset.id,
+      name:r.querySelector('input[type=text]').value.trim()||'이름없음',
+      color:r.querySelector('input[type=color]').value
+    }));
+    if(!nk.length){ toast('아이가 최소 1명은 필요합니다'); return; }
+    const ids=nk.map(k=>k.id);
+    data=data.filter(e=>ids.includes(e.kidId));
+    kids=nk;
+    if(filter!=='all'&&!ids.includes(filter)) filter='all';
+    persist(); $('ov').classList.remove('on'); render(); toast('저장되었습니다');
+  }
+};
+
+/* calendar click + drag */
+const gridEl=$('grid');
+gridEl.addEventListener('pointerdown',ev=>{
+  const c=ev.target.closest('[data-k]'); if(!c) return;
+  if(multi){
+    dragging=true; dragStart=c.dataset.k;
+    const i=msel.indexOf(dragStart);
+    if(i>=0) msel.splice(i,1); else msel.push(dragStart);
+    renderCal(); renderSide();
+  }
+});
+gridEl.addEventListener('pointerover',ev=>{
+  if(!dragging||!multi) return;
+  const c=ev.target.closest('[data-k]'); if(!c) return;
+  const k=c.dataset.k;
+  if(!msel.includes(k)){ msel.push(k); renderCal(); renderSide(); }
+});
+document.addEventListener('pointerup',()=>{ dragging=false; });
+
+gridEl.addEventListener('click',ev=>{
+  if(multi) return;
   const c=ev.target.closest('[data-k]'); if(!c) return;
   sel=c.dataset.k; stab='day'; formOpen=false; editId=null;
   document.querySelectorAll('.stab').forEach(b=>b.classList.toggle('on',b.dataset.t==='day'));
   render();
-};
+});
 
 $('sbody').onclick=ev=>{
   if(ev.target.closest('#addb')){ formOpen=true; editId=null; renderSide(); $('f-t').focus(); return; }
   if(ev.target.closest('#cancel')){ formOpen=false; editId=null; renderSide(); return; }
-  if(ev.target.closest('#save')){
-    const t=$('f-t').value.trim(), d=$('f-d').value, tm=$('f-tm').value;
-    if(!t){ toast('제목을 입력하세요'); $('f-t').focus(); return; }
-    if(!d||!tm){ toast('날짜와 시간을 입력하세요'); return; }
-    const memo=$('f-m').value.trim();
-    if(editId){ Object.assign(data.find(x=>x.id===editId),{title:t,date:d,time:tm,memo}); toast('수정되었습니다'); }
-    else{ data.push({id:Date.now().toString(36)+Math.random().toString(36).slice(2,6),
-          title:t,date:d,time:tm,memo,done:false}); toast('일정이 추가되었습니다'); }
-    sel=d; formOpen=false; editId=null; persist(); render(); return;
+  if(ev.target.closest('#save')){ doSave(); return; }
+  const ks=ev.target.closest('[data-k]');
+  if(ks&&ks.classList.contains('ks')){
+    $('f-k').value=ks.dataset.k;
+    [...$('ksel').children].forEach(b=>{
+      const on=b.dataset.k===ks.dataset.k;
+      b.classList.toggle('on',on);
+      b.style.background=on?kid(b.dataset.k).color:'';
+    });
+    return;
+  }
+  const ps=ev.target.closest('[data-s]');
+  if(ps){
+    $('f-s').value=ps.dataset.s;
+    [...$('pre-s').children].forEach(b=>b.classList.toggle('on',b.dataset.s===ps.dataset.s));
+    if(mins($('f-e').value)<=mins(ps.dataset.s)){
+      const t=mins(ps.dataset.s)+60;
+      $('f-e').value=`${pad(Math.floor(t/60)%24)}:${pad(t%60)}`;
+    }
+    updDur(); return;
+  }
+  const pa=ev.target.closest('[data-add]');
+  if(pa){
+    const t=mins($('f-s').value)+ +pa.dataset.add;
+    $('f-e').value=`${pad(Math.floor(t/60)%24)}:${pad(t%60)}`;
+    [...$('pre-e').children].forEach(b=>b.classList.toggle('on',b===pa));
+    updDur(); return;
   }
   const c=ev.target.closest('[data-c]');
   if(c){ const e=data.find(x=>x.id===c.dataset.c); e.done=!e.done; persist(); render();
-         toast(e.done?'완료 처리했습니다':'완료를 해제했습니다'); return; }
+    toast(e.done?'완료 처리했습니다':'완료를 해제했습니다'); return; }
   const e2=ev.target.closest('[data-e]');
   if(e2){ editId=e2.dataset.e; formOpen=true; renderSide(); $('f-t').focus(); return; }
   const dl=ev.target.closest('[data-d]');
   if(dl){ if(confirm('이 일정을 삭제할까요?')){ data=data.filter(x=>x.id!==dl.dataset.d);
-          persist(); render(); toast('삭제되었습니다'); } }
+    persist(); render(); toast('삭제되었습니다'); } }
 };
+
+function updDur(){
+  const d=durTxt($('f-s').value,$('f-e').value), el=$('dur');
+  if(!el) return;
+  el.textContent=d?`소요 ${d}`:'종료가 시작보다 빨라요';
+  el.classList.toggle('err',!d);
+}
+$('sbody').addEventListener('change',ev=>{
+  if(ev.target.id==='f-s'||ev.target.id==='f-e') updDur();
+});
 
 document.querySelectorAll('.stab').forEach(b=>b.onclick=()=>{
   document.querySelectorAll('.stab').forEach(x=>x.classList.remove('on'));
   b.classList.add('on'); stab=b.dataset.t; formOpen=false; editId=null; renderSide();
 });
 
+$('mbtn').onclick=()=>{
+  multi=!multi; msel=[]; formOpen=false; editId=null;
+  $('mbtn').classList.toggle('on',multi);
+  $('mhint').classList.toggle('on',multi);
+  $('mbtn').textContent=multi?'선택 종료':'여러 날 선택';
+  if(multi){ stab='day'; document.querySelectorAll('.stab').forEach(b=>b.classList.toggle('on',b.dataset.t==='day')); }
+  render();
+};
 $('prev').onclick=()=>{ cur.setDate(1); cur.setMonth(cur.getMonth()-1); renderCal(); };
 $('next').onclick=()=>{ cur.setDate(1); cur.setMonth(cur.getMonth()+1); renderCal(); };
 $('tbtn').onclick=()=>{ cur=new Date(); sel=ymd(new Date()); stab='day'; formOpen=false;
   document.querySelectorAll('.stab').forEach(b=>b.classList.toggle('on',b.dataset.t==='day')); render(); };
 
 document.addEventListener('keydown',e=>{
-  if(e.key==='Enter'&&e.target.id==='f-t') $('save').click();
-  if(e.key==='Escape'&&formOpen){ formOpen=false; editId=null; renderSide(); }
+  if(e.key==='Enter'&&e.target.id==='f-t'){ e.preventDefault(); doSave(); }
+  if(e.key==='Escape'){
+    if($('ov').classList.contains('on')) $('ov').classList.remove('on');
+    else if(formOpen){ formOpen=false; editId=null; renderSide(); }
+  }
 });
 
 load(); sel=ymd(new Date()); render();
-setInterval(()=>{ if(!formOpen) renderSide(); }, 60000);
+setInterval(()=>{ if(!formOpen) renderSide(); },60000);
 </script>
 </body>
 </html>
